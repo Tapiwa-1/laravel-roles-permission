@@ -1,152 +1,121 @@
-<script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-
-const showingNavigationDropdown = ref(false);
-</script>
-
 <template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
-                            </div>
+    <!-- <div v-if="$page.props.flash.message" class="p-4 text-sm text-green-700 bg-green-100  dark:bg-gray-800 dark:text-green-400" role="alert">
+        <span class="font-medium">Success alert!</span> {{ $page.props.flash.message }}
+    </div> -->
+    <div class="w-full bg-gray-100 dark:bg-gray-900">
 
-                            <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {{ $page.props.auth.user.name }}
-
-                                                <svg
-                                                    class="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button
-                                @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex': !showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex': showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+        <div class="flex justify-between px-4 py-1 items-center">
+            <span
+        class=" text-white text-4xl top-5 left-4 cursor-pointer"
+        >
+            <Bars3Icon class="w-6 h-6  bg-transparent text-gray-700 dark:text-gray-100 rounded-md" @click="display =! display"/>
+        </span>
+        <div class="flex items-center">
+            <button class="m-3" @click="toggleDark()">
+            <SunIcon  v-if="isDark" class="w-6 h-6 text-gray-800 dark:text-white font-bold"/>
+            <MoonIcon  v-else class="w-6 h-6 text-gray-800 dark:text-white font-bold"/>
+        </button>
+            <!-- Profile dropdown -->
+              <Menu as="div" class="relative ml-3">
+                <div>
+                  <MenuButton class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
+                  </MenuButton>
                 </div>
+                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                  <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 dark:text-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
+                      <Link :role="item.role" :href="item.href" :class="[active ? 'bg-gray-100 dark:bg-gray-900 ' : '', 'block px-4 py-2 text-sm text-gray-700 dark:text-white']">{{ item.name }}</Link>
+                    </MenuItem>
+                    <Link as="button" class="hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-white w-full text-left" :href="route('logout')" method="post" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Logout</Link>
+                  </MenuItems>
+                </transition>
+              </Menu>
+        </div>
+        </div>
+    </div>
+    <div v-if="display"
+      class="sidebar  absolute top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-100 dark:bg-gray-900"
+    >
+      <div class="text-gray-100 text-xl" >
+        <div class="p-2.5 mt-1 flex items-center">
+          <h1 class="font-bold text-gray-800 dark:text-gray-200 text-[15px] ml-3">Roles and Permission</h1>
+          <XMarkIcon class="w-6 h-6 cursor-pointer ml-28 text-gray-900 dark:text-gray-200 " @click="display = false"/>
+        </div>
+        <div class="my-2 bg-gray-600 h-[1px]"></div>
+      </div>
+      <div v-if="$page.props.user.roles.includes('admin')">
+            <Link :href="route('admin.index')"
+            class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
+            >
+                <HomeIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
+                <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Admin</span>
+            </Link>
+            <Link :href="route('admin.roles.index')"
+            class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
+            >
+                <UserGroupIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
+                <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Roles</span>
+            </Link>
+             <Link :href="route('admin.permission.index')"
+            class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
+            >
+                <KeyIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
+                <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Permission</span>
+            </Link>
+      </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                    class="sm:hidden"
-                >
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
-                        </div>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
+    </div>
+    <header class="bg-white shadow dark:bg-gray-700" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
-            </header>
-
+    </header>
             <!-- Page Content -->
-            <main>
+            <main class="dark:bg-gray-700">
                 <slot />
             </main>
-        </div>
-    </div>
 </template>
+
+    <script setup>
+    import { Link } from '@inertiajs/vue3';
+    import { useDark, useToggle } from '@vueuse/core';
+    import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+    import {
+       HomeIcon,
+       BookmarkIcon,
+       ChevronDoubleDownIcon,
+       LockClosedIcon,
+       ChatBubbleLeftIcon,
+       CursorArrowRaysIcon,
+       XMarkIcon,
+       Bars3Icon,
+       SunIcon,
+       MoonIcon,
+       UserGroupIcon,
+       UsersIcon,
+       KeyIcon
+    } from '@heroicons/vue/24/outline'
+    import { ref } from 'vue';
+
+    defineProps({
+        admin: Boolean,
+    })
+    const isDark = useDark();
+    const toggleDark = useToggle(isDark);
+
+    const user = {
+    name: 'Tom Cook',
+    email: 'tom@example.com',
+    imageUrl:
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+}
+    const userNavigation = [
+        { name: 'Dashboard', href: route('dashboard'), role: ''},
+        { name: 'Settings', href: route('profile.edit'), role:''},
+    ]
+    let display = ref(false);
+    </script>

@@ -7,7 +7,7 @@ import { Head } from '@inertiajs/vue3';
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Admin Dashboard</h2>
         </template>
 
         <div class="py-12">
