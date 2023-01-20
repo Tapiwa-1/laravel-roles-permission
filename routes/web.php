@@ -36,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
         return Inertia::render('Admin/Dashboard');
     })->name('index');
     Route::resource('/roles', RoleController::class);
-    Route::resource('/permission', PermissionController::class);
+    Route::resource('/permissions', PermissionController::class);
 });
 
 Route::middleware('auth')->group(function () {

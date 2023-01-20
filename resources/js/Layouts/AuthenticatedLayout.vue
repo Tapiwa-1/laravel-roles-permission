@@ -1,7 +1,7 @@
 <template>
-    <!-- <div v-if="$page.props.flash.message" class="p-4 text-sm text-green-700 bg-green-100  dark:bg-gray-800 dark:text-green-400" role="alert">
+    <div v-if="$page.props.flash.message" class="p-4 text-sm text-green-700 bg-green-100  dark:bg-gray-800 dark:text-green-400" role="alert">
         <span class="font-medium">Success alert!</span> {{ $page.props.flash.message }}
-    </div> -->
+    </div>
     <div class="w-full bg-gray-100 dark:bg-gray-900">
 
         <div class="flex justify-between px-4 py-1 items-center">
@@ -58,7 +58,7 @@
                 <UserGroupIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
                 <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Roles</span>
             </Link>
-             <Link :href="route('admin.permission.index')"
+             <Link :href="route('admin.permissions.index')"
             class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
             >
                 <KeyIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
