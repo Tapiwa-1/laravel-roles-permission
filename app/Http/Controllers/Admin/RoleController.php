@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -28,7 +29,9 @@ class RoleController extends Controller
         return to_route('admin.roles.index')->with('message','role added successfully');
     }
     public function edit(Role $role){
-        return Inertia::render('Admin/Roles/Edit',compact('role'));
+        $assignedPermission = $role->permissions;
+        $permissions = Permission::all();
+        return Inertia::render('Admin/Roles/Edit',compact('permissions','role','assignedPermission'));
     }
     public function update(Request $request, Role $role){
         $validated = $request->validate(['name' => 'required']);
@@ -38,6 +41,21 @@ class RoleController extends Controller
     public function destroy(Role $role){
         $role->delete();
         return to_route('admin.roles.index')->with('message','role deleted successfully');
+    }
+    public function givePermission(Request $request, Role $role){
+        if($role->hasPermissionTo($request->permissionName)){
+            return back()->with('message', 'permission already assigned');
+        }
+
+        $role->givePermissionTo($request->permissionName);
+        return back()->with('message', 'permission  assigned');
+    }
+    public function revokePermission(Role $role, Permission $permission){
+        if($role->hasPermissionTo($permission)){
+            $role->revokePermissionTo($permission);
+            return back()->with('message', 'permission revoked');
+        }
+        return back()->with('message', 'no such permission');
     }
 
 }

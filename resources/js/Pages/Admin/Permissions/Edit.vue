@@ -9,15 +9,25 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    permission: Object
+        permission: Object,
+        assignedPermission:Object,
+        roles: Object,
+
 });
 
 const form = useForm({
     name: '',
+    roleName:''
 });
 
 const submit = () => {
     form.put(route('admin.permissions.update', props.permission)
+    );
+};
+const submitRole = () => {
+    form.post(route('admin.permission.role', props.permission),{
+        preserveScroll: true,
+    }
     );
 };
 </script>
@@ -65,6 +75,33 @@ const submit = () => {
                                             </PrimaryButton>
                                         </div>
                                     </form>
+                                     <div class="">
+                                    <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Role Permission</h2>
+                                    <div  class="inline-grid grid-cols-3 gap-4">
+                                    <template v-for="role in assignedRole" :key="role.name">
+                                        <Link method="delete" as="button" ae :href="route('admin.permissions.roles.revoke', [props.role.id,permission.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                                {{role.name  }}
+                                        </Link>
+                                    </template>
+                                    </div>
+                                </div>
+                                <form class="m-1" @submit.prevent="submitRole">
+                                        <div>
+                                            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                                            <select v-model="form.roleName" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option selected disabled>Choose a role</option>
+                                                <option v-for="role in props.roles" :key="role.id" :value="role.name">{{role.name  }}</option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="flex items-center justify-end mt-4">
+
+                                            <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                                Assign
+                                            </PrimaryButton>
+                                        </div>
+                                </form>
                                 </div>
                             </div>
                         </div>
