@@ -10,7 +10,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
         permission: Object,
-        assignedPermission:Object,
+        assignedRole:Object,
         roles: Object,
 
 });
@@ -25,7 +25,7 @@ const submit = () => {
     );
 };
 const submitRole = () => {
-    form.post(route('admin.permission.role', props.permission),{
+    form.post(route('admin.permissions.role', props.permission),{
         preserveScroll: true,
     }
     );
@@ -79,7 +79,7 @@ const submitRole = () => {
                                     <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Role Permission</h2>
                                     <div  class="inline-grid grid-cols-3 gap-4">
                                     <template v-for="role in assignedRole" :key="role.name">
-                                        <Link method="delete" as="button" ae :href="route('admin.permissions.roles.revoke', [props.role.id,permission.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                        <Link method="delete" as="button" ae :href="route('admin.permissions.roles.remove', [props.permission.id,role.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                                 {{role.name  }}
                                         </Link>
                                     </template>
