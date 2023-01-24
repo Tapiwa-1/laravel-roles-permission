@@ -45,7 +45,8 @@
         </div>
         <div class="my-2 bg-gray-600 h-[1px]"></div>
       </div>
-      <div v-if="$page.props.user.roles.includes('admin')">
+
+      <div v-if="$page.props.user.userRoles.includes('admin')">
             <Link :href="route('admin.index')"
             class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
             >
@@ -58,12 +59,19 @@
                 <UserGroupIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
                 <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Roles</span>
             </Link>
-             <Link :href="route('admin.permissions.index')"
+            <Link :href="route('admin.permissions.index')"
             class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
             >
                 <KeyIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
                 <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Permission</span>
             </Link>
+             <Link :href="route('admin.users.index')"
+            class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer bg-blue-100 dark:bg-gray-700 dark:hover:bg-blue-500 hover:bg-blue-600 text-white"
+            >
+                <UsersIcon class="h-6 w-6 text-gray-900 dark:text-gray-200 "/>
+                <span class="text-[15px] ml-4 text-gray-900 dark:text-gray-200  font-bold">Users</span>
+            </Link>
+
       </div>
 
 
