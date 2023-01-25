@@ -21,11 +21,11 @@ class UserController extends Controller
         $allRoles = Role::all();
         $assignedRoles = $user->roles;
         $allPermissions = Permission::all();
-        $assignedPermissions = $user->permissions;
+        $assignedPermissions = $user->getAllPermissions();
+        $userDetails = $user;
         // dd($assignedPermissions);
-        return Inertia::render('Admin/Users/Role', compact('user','allRoles','allPermissions','assignedRoles','assignedPermissions'));
+        return Inertia::render('Admin/Users/EditRole', compact('userDetails','allRoles','allPermissions','assignedRoles','assignedPermissions'));
     }
-
     public function assignRole(Request $request, User $user)
     {
         if ($user->hasRole($request->roleName)) {

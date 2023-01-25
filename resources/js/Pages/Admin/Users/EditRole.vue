@@ -13,7 +13,7 @@ const props = defineProps({
     allPermissions: Object,
     assignedRoles:Object,
     assignedPermissions: Object,
-    user:Object,
+    userDetails:Object,
 });
 
 const form = useForm({
@@ -22,13 +22,13 @@ const form = useForm({
 });
 
 const submitRole = () => {
-    form.post(route('admin.users.roles', props.user.id),{
+    form.post(route('admin.users.roles', props.userDetails.id),{
         preserveScroll: true,
     }
     );
 };
 const submitPermission = () => {
-    form.post(route('admin.roles.permission', props.user.id),{
+    form.post(route('admin.roles.permission', props.userDetails.id),{
         preserveScroll: true,
     }
     );
@@ -40,7 +40,7 @@ const submitPermission = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Add Roles for {{user.name  }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Add Roles for {{userDetails.name  }}</h2>
 
         </template>
          <div class="py-12">
@@ -52,10 +52,10 @@ const submitPermission = () => {
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
                                 <div class="">
-                                    <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Assign for {{user.name  }}</h2>
+                                    <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Assign for {{userDetails.name  }}</h2>
                                     <div  class="inline-grid grid-cols-3 gap-4">
                                     <template v-for="role in assignedRoles" :key="role.name">
-                                        <Link method="delete" as="button" ae :href="route('admin.users.roles.remove', [props.user.id,role.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                        <Link method="delete" as="button" ae :href="route('admin.users.roles.remove', [props.userDetails.id,role.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                                 {{role.name }}
                                         </Link>
                                     </template>
@@ -79,10 +79,10 @@ const submitPermission = () => {
                                 </form>
                                 <div class="">
 
-                                    <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Assign for {{user.name  }}</h2>
+                                    <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">Assign for {{userDetails.name  }}</h2>
                                     <div  class="inline-grid grid-cols-3 gap-4">
                                     <template v-for="permission in assignedPermissions" :key="permission.name">
-                                        <Link method="delete" as="button" ae :href="route('admin.users.permissions.revoke', [props.user.id,permission.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                        <Link method="delete" as="button" ae :href="route('admin.users.permissions.revoke', [props.userDetails.id,permission.id])" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                                 {{permission.name }}
                                         </Link>
                                     </template>
